@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+httpx
+python-dotenv
+python-multipart
+python-multipart
+python-jose
+passlib
+motor
+pydantic[email]
+pyJWT[crypto]
+pymongo
+passlib[bcrypt]==1.7.4 
+bcrypt==3.2.2
