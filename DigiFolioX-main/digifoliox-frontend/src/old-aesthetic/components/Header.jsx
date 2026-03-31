@@ -6,11 +6,7 @@ import {
   Home, 
   User, 
   Mail, 
-  Briefcase,
-  BookOpen,
-  Phone,
-  FolderOpen,
-  Award
+  Briefcase
 } from 'lucide-react';
 
 function Header({ data }) {
@@ -20,11 +16,6 @@ function Header({ data }) {
 
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
-    { id: 'about', label: 'About', icon: User },
-    { id: 'expertise', label: 'Expertise', icon: BookOpen },
-    { id: 'projects', label: 'Projects', icon: FolderOpen },
-    { id: 'certifications', label: 'Certifications', icon: Award },
-    { id: 'contact', label: 'Contact', icon: Mail },
   ];
 
   const scrollToSection = (sectionId) => {
@@ -74,19 +65,6 @@ function Header({ data }) {
               );
             })}
           </nav>
-
-          {/* Contact Button */}
-          <div className="hidden md:flex items-center">
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="group px-6 py-3 border border-brown-medium text-brown-medium hover:bg-brown-dark hover:text-cream transition-all duration-300 flex items-center space-x-2"
-              >
-                <Phone className="h-4 w-4" />
-                <span className="font-serif tracking-wider">CONTACT</span>
-              </button>
-            </div>
-          </div>
 
           {/* Mobile Menu Button */}
           <button
