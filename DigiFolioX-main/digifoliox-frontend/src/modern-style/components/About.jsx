@@ -92,12 +92,11 @@ Generated via DigiFolioX • Modern Template
   // Get colorful gradient for first letter
   const getGradientForName = (name) => {
     const gradients = [
-      'from-blue-500 to-purple-500',
-      'from-pink-500 to-orange-500',
-      'from-green-500 to-teal-500',
-      'from-red-500 to-yellow-500',
-      'from-indigo-500 to-blue-500',
-      'from-purple-500 to-pink-500'
+      'from-blue-500 to-purple-600',
+      'from-indigo-500 to-blue-600',
+      'from-purple-500 to-pink-500',
+      'from-blue-600 to-cyan-500',
+      'from-violet-500 to-purple-600'
     ];
     const index = (name?.charCodeAt(0) || 0) % gradients.length;
     return gradients[index];
@@ -131,13 +130,16 @@ Generated via DigiFolioX • Modern Template
 
 
             {/* Double Circle Graphic with First Letter */}
-            <div className="relative inline-flex items-center justify-center mb-6">
-              <div className="absolute w-28 h-28 rounded-full bg-gradient-to-r from-blue-200 to-purple-200 animate-pulse opacity-50"></div>
-              <div className="absolute w-24 h-24 rounded-full bg-gradient-to-r from-blue-300 to-purple-300 opacity-70"></div>
-              <div className={`relative w-20 h-20 rounded-full bg-gradient-to-r ${gradientClass} flex items-center justify-center shadow-lg`}>
-                <span className="text-4xl font-bold text-white drop-shadow-md">{firstLetter}</span>
-              </div>
-            </div>
+<div className="relative inline-flex items-center justify-center mb-6">
+  {/* Outer glow circle */}
+  <div className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-blue-400/30 to-purple-400/30 animate-pulse"></div>
+  {/* Middle circle */}
+  <div className="absolute w-28 h-28 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20"></div>
+  {/* Inner circle with gradient */}
+  <div className={`relative w-20 h-20 rounded-full bg-gradient-to-r ${gradientClass} flex items-center justify-center shadow-lg ring-4 ring-white/50`}>
+    <span className="text-4xl font-bold text-white drop-shadow-lg">{firstLetter}</span>
+  </div>
+</div>
 
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Get to Know{' '}
