@@ -27,6 +27,7 @@ text
 - **JWT Authentication** - Secure user sessions
 
 ## 📁 Project Structure
+``` 
 DigiFolioX/
 ├── digifoliox-backend/ # FastAPI backend
 │ ├── app/
@@ -49,15 +50,13 @@ DigiFolioX/
 │ └── package.json
 │
 └── README.md
-
-text
+``` 
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React, Tailwind CSS, Vite
 - **Backend**: FastAPI, MongoDB, JWT
-- **AI**: Google Gemini API / OpenAI (optional)
-- **Deployment**: Render + Vercel (optional)
+- **AI**: Google Gemini API (optional)
 
 ## 📋 Prerequisites
 
@@ -68,28 +67,32 @@ text
 ## 🚀 Quick Start
 
 ### Backend Setup
-```bash
+``` sh
 cd digifoliox-backend
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn main:app --reload
+``` 
 Frontend Setup
-bash
+``` sh
 cd digifoliox-frontend
 npm install
 npm run dev
-🔑 Environment Variables
+``` 
+## 🔑 Environment Variables
 Backend (.env)
-text
+``` sh
 DIGIFOLIOX_MONGODB_URL=mongodb://localhost:27017
 DIGIFOLIOX_DATABASE_NAME=portfolio_ai_db
 DIGIFOLIOX_SECRET_KEY=your-secret-key
+``` 
 Frontend (.env)
-text
+``` sh
 VITE_DIGIFOLIOX_API_BASE_URL=http://localhost:8000
 VITE_GEMINI_API_KEY=your_key_here  # Optional
-🤖 AI Features
+``` 
+## 🤖 AI Features
 Gibberish Detection - Automatically rejects random inputs like "fufgyuf"
 
 Skill Validation - Ensures real professional skills
@@ -98,8 +101,9 @@ About Generation - Creates professional bios from templates
 
 Project Enhancement - Improves descriptions with achievement-focused language
 
-📝 License
+## 📝 License
 MIT
 
-Author
+## Author
+
 Dodda Sujitha
