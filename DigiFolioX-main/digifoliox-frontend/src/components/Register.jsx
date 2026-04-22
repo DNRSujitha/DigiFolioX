@@ -18,7 +18,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const API_BASE_URL = import.meta.env.VITE_DIGIFOLIOX_API_BASE_URL || 'https://localprocanvas.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_DIGIFOLIOX_API_BASE_URL ;
 
 function Register() {
   const navigate = useNavigate();

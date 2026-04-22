@@ -15,24 +15,33 @@ class AIService {
   // ========== API CALL METHODS ==========
   
   async callGemini(prompt) {
-    try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.geminiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
-        })
-      });
-      
-      if (!response.ok) throw new Error('Gemini API failed');
-      const data = await response.json();
-      return data.candidates[0]?.content?.parts[0]?.text || null;
-    } catch (error) {
-      console.error('Gemini API error:', error);
+  try {
+    // Use the correct endpoint and model
+    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${this.geminiKey}`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{ text: prompt }]
+        }]
+      })
+    });
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Gemini API error:', errorText);
       return null;
     }
+    
+    const data = await response.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
+  } catch (error) {
+    console.error('Gemini API error:', error);
+    return null;
   }
+}
 
   async callOpenAI(prompt) {
     try {

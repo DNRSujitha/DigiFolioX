@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Eye, Calendar, User, Briefcase, Heart } from 'lucide-react';
 
-const API_BASE_URL = import.meta.env.VITE_DIGIFOLIOX_API_BASE_URL || 'https://localprocanvas.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_DIGIFOLIOX_API_BASE_URL ;
 
 // Import all template components for public viewing
 import ModernEntry from '../modern-style/Entry';

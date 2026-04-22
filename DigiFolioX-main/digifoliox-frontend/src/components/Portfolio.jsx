@@ -5,9 +5,9 @@ import {
   GraduationCap, Trash2, Lightbulb, Zap, Link
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import aiService from '../services/aiService'; // We'll create this next
+import aiService from '../services/aiService';
 
-const API_BASE_URL = import.meta.env.VITE_DIGIFOLIOX_API_BASE_URL || 'https://localprocanvas.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_DIGIFOLIOX_API_BASE_URL ;
 
 // ========== 1. Profession Metadata ==========
 const professionMetaData = {
@@ -470,6 +470,49 @@ function Portfolio() {
       setHobbySuggestions(suggestions);
     }
   }, [formData.profession]);
+  // ========== RESET PROFESSION-SPECIFIC DATA WHEN PROFESSION CHANGES ==========
+useEffect(() => {
+  if (formData.profession) {
+    // Save the new profession to localStorage
+    localStorage.setItem('digifoliox_profession', formData.profession);
+    
+    // Reset profession-specific fields when profession changes
+    // But preserve basic info like name and contact details
+    
+    setFormData(prev => ({
+      ...prev,
+      // Reset skills to empty array
+      skills: [],
+      // Reset hobbies to empty array  
+      hobbies: [],
+      // Reset projects (optional - you may want to keep or reset)
+      // projects: [],
+      // Reset certifications
+      certifications: [],
+      // Reset about section (so user can generate new one)
+      about: '',
+      // Reset education if it's profession-specific
+      education: [],
+      // Reset experience if it's profession-specific  
+      experience: [],
+    }));
+    
+    // Clear any validation errors
+    setErrors({});
+    
+    // Reset input fields
+    setNewSkill('');
+    setNewHobby('');
+    setNewCertification('');
+    setNewProject({ title: '', description: '' });
+    setNewEducation({ degree: '', institution: '', year: '' });
+    setNewExperience({ role: '', company: '', duration: '' });
+    
+    // Show suggestions again
+    setShowSkillSuggestions(true);
+    setShowHobbySuggestions(true);
+  }
+}, [formData.profession]); // This runs when profession changes
 
   const addSuggestedHobby = (suggestedHobby) => {
     if (!formData.hobbies.includes(suggestedHobby)) {
@@ -560,38 +603,40 @@ function Portfolio() {
     }
   };
 
+  // IMPROVED: Use real AI service for project description improvement
   const improveProjectDescription = async (projectIndex) => {
     const project = formData.projects[projectIndex];
 
-    // Check if description already has AI enhancement
-    const hasAIEnhancement = project.description?.includes('✨') ||
-      project.description?.includes('This project demonstrates');
+    if (!project.title) {
+      setErrors(prev => ({ ...prev, ai: 'Project title is required' }));
+      return;
+    }
 
-    const mockImprovement = async (title, description) => {
-      // Clean up existing AI enhancements
-      let cleanDescription = description || '';
+    setValidating(true);
+    try {
+      // ✅ Call the real AI service
+      const improvedDescription = await aiService.improveDescription(
+        project.title,
+        project.description || ''
+      );
 
-      // Remove existing AI prefixes and duplicates
-      cleanDescription = cleanDescription.replace(/^✨\s*/, '');
-      cleanDescription = cleanDescription.replace(/\s*This project demonstrates.*$/i, '');
-      cleanDescription = cleanDescription.trim();
-
-      // Generate new improvement without duplication
-      const improvements = [
-        `✨ ${cleanDescription ? cleanDescription + ' ' : ''}A comprehensive ${title} project that showcases expertise in delivering innovative solutions with measurable results.`,
-        `✨ ${cleanDescription ? cleanDescription + ' ' : ''}Successfully executed ${title} with focus on quality and user experience, resulting in outstanding outcomes.`,
-        `✨ ${cleanDescription ? cleanDescription + ' ' : ''}Led the development of ${title}, implementing best practices and achieving significant improvements in performance.`,
-        `✨ ${cleanDescription ? cleanDescription + ' ' : ''}Created and deployed ${title} with modern technologies, ensuring scalability and maintainability.`
-      ];
-
-      return improvements[Math.floor(Math.random() * improvements.length)];
-    };
-
-    const improvedDescription = await mockImprovement(project.title, project.description);
-
-    const updatedProjects = [...formData.projects];
-    updatedProjects[projectIndex] = { ...project, description: improvedDescription };
-    setFormData(prev => ({ ...prev, projects: updatedProjects }));
+      const updatedProjects = [...formData.projects];
+      updatedProjects[projectIndex] = {
+        ...project,
+        description: improvedDescription
+      };
+      setFormData(prev => ({ ...prev, projects: updatedProjects }));
+      setErrors(prev => ({ ...prev, ai: null }));
+    } catch (error) {
+      console.error('AI improvement error:', error);
+      // Fallback to simple improvement without duplication
+      const fallbackDescription = `✨ ${project.description || `The ${project.title} project`} demonstrates expertise in delivering high-quality solutions with a focus on user experience and functionality.`;
+      const updatedProjects = [...formData.projects];
+      updatedProjects[projectIndex] = { ...project, description: fallbackDescription };
+      setFormData(prev => ({ ...prev, projects: updatedProjects }));
+    } finally {
+      setValidating(false);
+    }
   };
 
   const generatePortfolio = async () => {

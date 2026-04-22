@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Sparkles, Home } from 'lucide-react';
 import HomePage from './components/HomePage';
 
-const API_BASE_URL = import.meta.env.VITE_DIGIFOLIOX_API_BASE_URL || 'https://localprocanvas.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_DIGIFOLIOX_API_BASE_URL ;
 
 function Entry() {
   const { uniqueId } = useParams();
